@@ -17,7 +17,15 @@ import CheckoutSuccess from "./pages/CheckoutSuccess";
 import { AuthProvider } from "./context/AuthContext";
 import Chatbot from "./components/chatbot/Chatbot";
 
-const queryClient = new QueryClient();
+// Create a new QueryClient outside of the component to avoid recreation on renders
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

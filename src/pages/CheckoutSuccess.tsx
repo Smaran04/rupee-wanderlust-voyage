@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { CheckCircle, Calendar, MapPin, User, Receipt, Download, Mail, Phone } from 'lucide-react';
 import { format } from 'date-fns';
@@ -8,11 +8,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import Layout from '@/components/layout/Layout';
 import { toast } from "@/hooks/use-toast";
+import { sendEmail, sendSMS } from '@/services/NotificationService';
 
 const CheckoutSuccess = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const bookingDetails = location.state?.bookingDetails;
+  const [emailSent, setEmailSent] = useState(false);
+  const [smsSent, setSmsSent] = useState(false);
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -22,14 +25,75 @@ const CheckoutSuccess = () => {
       return;
     }
     
-    // Simulate sending booking details via email/SMS
-    // In a real app, this would be handled by a backend API
-    setTimeout(() => {
-      toast({
-        title: "Booking details sent",
-        description: `Your booking details have been sent to ${bookingDetails.guestEmail} and ${bookingDetails.guestPhone}`,
-      });
-    }, 2000);
+    // Send booking confirmation email
+    const sendNotifications = async () => {
+      try {
+        // Format booking details for email
+        const emailMessage = `
+          Dear ${bookingDetails.guestName},
+          
+          Thank you for booking with Travel Ease!
+          
+          Booking Reference: ${bookingDetails.bookingId}
+          Hotel: ${bookingDetails.hotelName}
+          Room Type: ${bookingDetails.roomType}
+          Check-in: ${format(new Date(bookingDetails.checkIn), 'EEEE, MMMM d, yyyy')}
+          Check-out: ${format(new Date(bookingDetails.checkOut), 'EEEE, MMMM d, yyyy')}
+          Guests: ${bookingDetails.adults} Adults, ${bookingDetails.children} Children
+          Total Amount: ₹${bookingDetails.grandTotal.toLocaleString()}
+          
+          We look forward to welcoming you!
+          
+          Best regards,
+          Travel Ease Team
+        `;
+        
+        // Format booking details for SMS
+        const smsMessage = `
+          Travel Ease: Your booking #${bookingDetails.bookingId} for ${bookingDetails.hotelName} is confirmed. Check-in: ${format(new Date(bookingDetails.checkIn), 'MMM d')}. Total: ₹${bookingDetails.grandTotal.toLocaleString()}
+        `;
+
+        // Send email notification
+        const emailResult = await sendEmail({
+          to: bookingDetails.guestEmail,
+          subject: `Travel Ease Booking Confirmation #${bookingDetails.bookingId}`,
+          message: emailMessage
+        });
+        
+        if (emailResult) {
+          setEmailSent(true);
+          toast({
+            title: "Email sent",
+            description: `Booking confirmation email has been sent to ${bookingDetails.guestEmail}`,
+          });
+        }
+        
+        // Send SMS notification
+        if (bookingDetails.guestPhone) {
+          const smsResult = await sendSMS({
+            to: bookingDetails.guestPhone,
+            message: smsMessage
+          });
+          
+          if (smsResult) {
+            setSmsSent(true);
+            toast({
+              title: "SMS sent",
+              description: `Booking confirmation SMS has been sent to ${bookingDetails.guestPhone}`,
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Failed to send notifications:", error);
+        toast({
+          title: "Notification error",
+          description: "We couldn't send booking notifications. Please contact customer support.",
+          variant: "destructive",
+        });
+      }
+    };
+    
+    sendNotifications();
   }, [bookingDetails, navigate]);
   
   if (!bookingDetails) {
@@ -52,6 +116,20 @@ const CheckoutSuccess = () => {
             <p className="text-gray-600 mt-2">
               Your reservation has been successfully completed.
             </p>
+            <div className="flex flex-wrap justify-center gap-2 mt-4">
+              {emailSent && (
+                <div className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-50 text-blue-600">
+                  <Mail className="h-3.5 w-3.5 mr-1" />
+                  Email notification sent
+                </div>
+              )}
+              {smsSent && (
+                <div className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-50 text-green-600">
+                  <Phone className="h-3.5 w-3.5 mr-1" />
+                  SMS notification sent
+                </div>
+              )}
+            </div>
           </div>
           
           <Card className="mb-8">
@@ -172,6 +250,32 @@ const CheckoutSuccess = () => {
             <Button className="flex items-center">
               <Download className="h-4 w-4 mr-2" />
               Download Booking Voucher
+            </Button>
+            <Button variant="outline" onClick={() => {
+              // Resend notifications manually
+              const emailMessage = `Travel Ease Booking Confirmation #${bookingDetails.bookingId}`;
+              const smsMessage = `Travel Ease: Your booking #${bookingDetails.bookingId} is confirmed.`;
+              
+              toast({
+                title: "Resending notifications",
+                description: "We're sending your booking details again...",
+              });
+              
+              sendEmail({
+                to: bookingDetails.guestEmail,
+                subject: "Your Travel Ease Booking (Resent)",
+                message: emailMessage
+              });
+              
+              if (bookingDetails.guestPhone) {
+                sendSMS({
+                  to: bookingDetails.guestPhone,
+                  message: smsMessage
+                });
+              }
+            }}>
+              <Mail className="h-4 w-4 mr-2" />
+              Resend Confirmations
             </Button>
             <Link to="/">
               <Button variant="outline">Return to Homepage</Button>
