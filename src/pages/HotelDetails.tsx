@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
@@ -91,194 +90,192 @@ const HotelDetails = () => {
   
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-8">
-        {/* Breadcrumbs */}
-        <div className="mb-6">
-          <nav className="flex" aria-label="Breadcrumb">
-            <ol className="inline-flex items-center space-x-1 md:space-x-3">
-              <li className="inline-flex items-center">
-                <Link to="/" className="text-gray-600 hover:text-travel-600">Home</Link>
-              </li>
-              <li>
-                <div className="flex items-center">
-                  <span className="mx-2 text-gray-400">/</span>
-                  <Link to="/hotels" className="text-gray-600 hover:text-travel-600">Hotels</Link>
-                </div>
-              </li>
-              <li>
-                <div className="flex items-center">
-                  <span className="mx-2 text-gray-400">/</span>
-                  <span className="text-gray-500 truncate">{hotel.name}</span>
-                </div>
-              </li>
-            </ol>
-          </nav>
-        </div>
-        
-        {/* Hotel Header */}
-        <div className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-bold">{hotel.name}</h1>
-              <div className="flex items-center mt-2 space-x-4">
-                <div className="flex items-center">
-                  <MapPin className="h-4 w-4 text-travel-500 mr-1" />
-                  <span className="text-gray-600">{hotel.address}</span>
-                </div>
-                <div className="flex items-center">
-                  <Star className="h-4 w-4 text-yellow-500 mr-1" />
-                  <span className="font-medium">{hotel.rating}</span>
-                </div>
+      {/* Breadcrumbs */}
+      <div className="mb-6">
+        <nav className="flex" aria-label="Breadcrumb">
+          <ol className="inline-flex items-center space-x-1 md:space-x-3">
+            <li className="inline-flex items-center">
+              <Link to="/" className="text-gray-600 hover:text-travel-600">Home</Link>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <span className="mx-2 text-gray-400">/</span>
+                <Link to="/hotels" className="text-gray-600 hover:text-travel-600">Hotels</Link>
+              </div>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <span className="mx-2 text-gray-400">/</span>
+                <span className="text-gray-500 truncate">{hotel.name}</span>
+              </div>
+            </li>
+          </ol>
+        </nav>
+      </div>
+      
+      {/* Hotel Header */}
+      <div className="mb-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold">{hotel.name}</h1>
+            <div className="flex items-center mt-2 space-x-4">
+              <div className="flex items-center">
+                <MapPin className="h-4 w-4 text-travel-500 mr-1" />
+                <span className="text-gray-600">{hotel.address}</span>
+              </div>
+              <div className="flex items-center">
+                <Star className="h-4 w-4 text-yellow-500 mr-1" />
+                <span className="font-medium">{hotel.rating}</span>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <Button variant="outline" onClick={() => window.scrollTo({ top: 1000, behavior: 'smooth' })}>
-                View Rooms
-              </Button>
-              <Button onClick={handleBooking}>Book Now</Button>
-            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={() => window.scrollTo({ top: 1000, behavior: 'smooth' })}>
+              View Rooms
+            </Button>
+            <Button onClick={handleBooking}>Book Now</Button>
           </div>
         </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Hotel Images & Details */}
-          <div className="lg:col-span-2">
-            <ImageGallery images={hotel.images} name={hotel.name} />
-            
-            <div className="mt-8">
-              <Tabs defaultValue="details">
-                <TabsList className="w-full">
-                  <TabsTrigger value="details" className="w-full">Details</TabsTrigger>
-                  <TabsTrigger value="amenities" className="w-full">Amenities</TabsTrigger>
-                  <TabsTrigger value="location" className="w-full">Location</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="details" className="mt-6">
-                  <div className="space-y-4">
-                    <h2 className="text-xl font-bold">About {hotel.name}</h2>
-                    <p className="text-gray-700">{hotel.description}</p>
-                    
-                    {isFestival && (
-                      <div className="mt-6 bg-red-50 border border-red-100 rounded-lg p-4">
-                        <div className="flex items-start">
-                          <BadgeAlert className="text-red-500 h-6 w-6 mt-0.5 mr-3 flex-shrink-0" />
-                          <div>
-                            <h3 className="font-bold text-red-800">Festival Season Alert</h3>
-                            <p className="text-red-700 mt-1">
-                              During the following festivals, prices may be higher due to increased demand:
-                            </p>
-                            <ul className="mt-2 space-y-1">
-                              {hotel.festivalsNearby?.map((festival, index) => (
-                                <li key={index} className="flex items-center text-red-700">
-                                  <span className="mr-2">•</span> {festival}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left Column - Hotel Images & Details */}
+        <div className="lg:col-span-2">
+          <ImageGallery images={hotel.images} name={hotel.name} />
+          
+          <div className="mt-8">
+            <Tabs defaultValue="details">
+              <TabsList className="w-full">
+                <TabsTrigger value="details" className="w-full">Details</TabsTrigger>
+                <TabsTrigger value="amenities" className="w-full">Amenities</TabsTrigger>
+                <TabsTrigger value="location" className="w-full">Location</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="details" className="mt-6">
+                <div className="space-y-4">
+                  <h2 className="text-xl font-bold">About {hotel.name}</h2>
+                  <p className="text-gray-700">{hotel.description}</p>
+                  
+                  {isFestival && (
+                    <div className="mt-6 bg-red-50 border border-red-100 rounded-lg p-4">
+                      <div className="flex items-start">
+                        <BadgeAlert className="text-red-500 h-6 w-6 mt-0.5 mr-3 flex-shrink-0" />
+                        <div>
+                          <h3 className="font-bold text-red-800">Festival Season Alert</h3>
+                          <p className="text-red-700 mt-1">
+                            During the following festivals, prices may be higher due to increased demand:
+                          </p>
+                          <ul className="mt-2 space-y-1">
+                            {hotel.festivalsNearby?.map((festival, index) => (
+                              <li key={index} className="flex items-center text-red-700">
+                                <span className="mr-2">•</span> {festival}
+                              </li>
+                            ))}
+                          </ul>
                         </div>
                       </div>
-                    )}
-                    
-                    <div className="mt-6">
-                      <h3 className="text-lg font-semibold mb-3">Room Types Available</h3>
-                      <div className="space-y-4">
-                        {hotel.rooms.map((room, index) => (
-                          <div 
-                            key={index} 
-                            className={`p-4 border rounded-lg ${
-                              selectedRoom === room.type ? 'border-travel-500 bg-travel-50' : ''
-                            }`}
-                          >
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                              <div>
-                                <h4 className="font-semibold">{room.type}</h4>
-                                <p className="text-sm text-gray-600">
-                                  Max Occupancy: {room.occupancy.adults} adults, {room.occupancy.children} children
-                                </p>
-                                <p className="text-sm text-gray-600">
-                                  {room.availability} rooms available
+                    </div>
+                  )}
+                  
+                  <div className="mt-6">
+                    <h3 className="text-lg font-semibold mb-3">Room Types Available</h3>
+                    <div className="space-y-4">
+                      {hotel.rooms.map((room, index) => (
+                        <div 
+                          key={index} 
+                          className={`p-4 border rounded-lg ${
+                            selectedRoom === room.type ? 'border-travel-500 bg-travel-50' : ''
+                          }`}
+                        >
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                              <h4 className="font-semibold">{room.type}</h4>
+                              <p className="text-sm text-gray-600">
+                                Max Occupancy: {room.occupancy.adults} adults, {room.occupancy.children} children
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                {room.availability} rooms available
+                              </p>
+                            </div>
+                            <div className="mt-3 sm:mt-0">
+                              <div className="text-right">
+                                <p className="text-sm text-gray-500">Price per night</p>
+                                <p className="font-bold text-lg">
+                                  ₹{Math.round(basePrice * room.priceMultiplier).toLocaleString()}
                                 </p>
                               </div>
-                              <div className="mt-3 sm:mt-0">
-                                <div className="text-right">
-                                  <p className="text-sm text-gray-500">Price per night</p>
-                                  <p className="font-bold text-lg">
-                                    ₹{Math.round(basePrice * room.priceMultiplier).toLocaleString()}
-                                  </p>
-                                </div>
-                                {selectedRoom === room.type ? (
-                                  <Badge className="mt-2">Selected</Badge>
-                                ) : (
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm" 
-                                    className="mt-2"
-                                    onClick={() => setSelectedRoom(room.type)}
-                                  >
-                                    Select
-                                  </Button>
-                                )}
-                              </div>
+                              {selectedRoom === room.type ? (
+                                <Badge className="mt-2">Selected</Badge>
+                              ) : (
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="mt-2"
+                                  onClick={() => setSelectedRoom(room.type)}
+                                >
+                                  Select
+                                </Button>
+                              )}
                             </div>
                           </div>
-                        ))}
-                      </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </TabsContent>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="amenities" className="mt-6">
+                <h2 className="text-xl font-bold mb-4">Amenities</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {hotel.amenities.map((amenity, index) => (
+                    <div key={index} className="flex items-center">
+                      <Check className="text-green-500 mr-2 h-5 w-5" />
+                      <span>{amenity}</span>
+                    </div>
+                  ))}
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="location" className="mt-6">
+                <h2 className="text-xl font-bold mb-4">Location</h2>
+                <div className="bg-gray-100 rounded-lg p-4 mb-4">
+                  <p className="font-medium">{hotel.address}</p>
+                  {destination && (
+                    <p className="text-gray-600 mt-1">Located in {destination.name}, {destination.country}</p>
+                  )}
+                </div>
                 
-                <TabsContent value="amenities" className="mt-6">
-                  <h2 className="text-xl font-bold mb-4">Amenities</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {hotel.amenities.map((amenity, index) => (
-                      <div key={index} className="flex items-center">
-                        <Check className="text-green-500 mr-2 h-5 w-5" />
-                        <span>{amenity}</span>
-                      </div>
-                    ))}
-                  </div>
-                </TabsContent>
+                <div className="aspect-video relative rounded-lg overflow-hidden">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    allowFullScreen
+                    src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBMH_02-CmHwzaN9HA7c3lyAA6qZ1rM86k&q=${encodeURIComponent(hotel.address)}`}
+                  ></iframe>
+                </div>
                 
-                <TabsContent value="location" className="mt-6">
-                  <h2 className="text-xl font-bold mb-4">Location</h2>
-                  <div className="bg-gray-100 rounded-lg p-4 mb-4">
-                    <p className="font-medium">{hotel.address}</p>
-                    {destination && (
-                      <p className="text-gray-600 mt-1">Located in {destination.name}, {destination.country}</p>
-                    )}
-                  </div>
-                  
-                  <div className="aspect-video relative rounded-lg overflow-hidden">
-                    <iframe
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      loading="lazy"
-                      allowFullScreen
-                      src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBMH_02-CmHwzaN9HA7c3lyAA6qZ1rM86k&q=${encodeURIComponent(hotel.address)}`}
-                    ></iframe>
-                  </div>
-                  
-                  {destination && destination.hotspots.length > 0 && (
-                    <div className="mt-8">
-                      <h3 className="text-lg font-semibold mb-3">Nearby Attractions</h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {destination.hotspots.map((hotspot, index) => (
-                          <div key={index} className="border rounded-lg overflow-hidden">
-                            <div className="h-40">
-                              <img 
-                                src={hotspot.image} 
-                                alt={hotspot.name} 
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                            <div className="p-3">
-                              <h4 className="font-medium">{hotspot.name}</h4>
-                              <p className="text-sm text-gray-600 mt-1">{hotspot.description}</p>
-                            </div>
+                {destination && destination.hotspots.length > 0 && (
+                  <div className="mt-8">
+                    <h3 className="text-lg font-semibold mb-3">Nearby Attractions</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {destination.hotspots.map((hotspot, index) => (
+                        <div key={index} className="border rounded-lg overflow-hidden">
+                          <div className="h-40">
+                            <img 
+                              src={hotspot.image} 
+                              alt={hotspot.name} 
+                              className="w-full h-full object-cover"
+                            />
                           </div>
-                        ))}
-                      </div>
+                          <div className="p-3">
+                            <h4 className="font-medium">{hotspot.name}</h4>
+                            <p className="text-sm text-gray-600 mt-1">{hotspot.description}</p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   )}
                 </TabsContent>

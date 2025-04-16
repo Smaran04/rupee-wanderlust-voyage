@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -21,7 +20,6 @@ const Booking = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   
-  // Parse query parameters
   const queryParams = new URLSearchParams(location.search);
   const roomType = queryParams.get('roomType') || '';
   const checkInStr = queryParams.get('checkIn') || '';
@@ -43,15 +41,13 @@ const Booking = () => {
   
   const hotel = hotels.find(h => h.id === Number(hotelId));
   
-  // Calculate totals
   const totalPrice = pricePerNight * nights;
-  const taxes = Math.round(totalPrice * 0.18); // 18% tax
+  const taxes = Math.round(totalPrice * 0.18);
   const grandTotal = totalPrice + taxes;
   
   useEffect(() => {
     window.scrollTo(0, 0);
     
-    // If not authenticated, redirect to login
     if (!isAuthenticated) {
       navigate('/login', { state: { redirectAfterLogin: `/booking/${hotelId}${location.search}` } });
       return;
@@ -62,7 +58,6 @@ const Booking = () => {
       return;
     }
     
-    // Pre-fill user info if available
     if (user) {
       setFullName(user.name);
       setEmail(user.email);
@@ -88,10 +83,8 @@ const Booking = () => {
     
     setIsProcessing(true);
     
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    // Create a booking summary to pass to success page
     const bookingDetails = {
       bookingId: `BK${Date.now().toString().slice(-8)}`,
       hotelId: hotel.id,
@@ -114,12 +107,10 @@ const Booking = () => {
       bookingDate: new Date().toISOString(),
     };
     
-    // Store booking details in localStorage (in a real app, this would be stored in a database)
     const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
     bookings.push(bookingDetails);
     localStorage.setItem('bookings', JSON.stringify(bookings));
     
-    // Navigate to success page with booking ID
     navigate('/success', { state: { bookingDetails } });
   };
   
@@ -137,7 +128,6 @@ const Booking = () => {
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/*  Booking Form */}
           <div className="lg:col-span-2">
             <Card>
               <CardContent className="p-6">
@@ -315,7 +305,6 @@ const Booking = () => {
             </Card>
           </div>
           
-          {/* Booking Summary */}
           <div className="lg:col-span-1">
             <Card>
               <CardContent className="p-6">

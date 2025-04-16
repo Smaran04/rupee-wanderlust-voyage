@@ -53,7 +53,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ isHorizontal = false }) => {
             <SelectValue placeholder="Where are you going?" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Destinations</SelectItem>
+            <SelectItem value="all">All Destinations</SelectItem>
             {destinations.map(dest => (
               <SelectItem key={dest.id} value={dest.id.toString()}>
                 {dest.name}, {dest.country}
