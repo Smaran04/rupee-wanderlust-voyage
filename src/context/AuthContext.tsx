@@ -7,6 +7,8 @@ interface User {
   name: string;
   email: string;
   phone?: string;
+  photoUrl?: string;
+  provider?: 'email' | 'google';
 }
 
 interface AuthContextType {
@@ -15,6 +17,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string, phone?: string) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
   logout: () => void;
 }
 
@@ -47,6 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           name: email.split('@')[0],
           email,
           phone: '',
+          provider: 'email' as const,
         };
         
         setUser(loggedInUser);
@@ -84,6 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           name,
           email,
           phone,
+          provider: 'email' as const,
         };
         
         setUser(newUser);
@@ -107,6 +112,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const loginWithGoogle = async () => {
+    try {
+      setLoading(true);
+      
+      // Simulate Google authentication API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Mock Google user for demo
+      const googleUser = {
+        id: `google_user_${Date.now()}`,
+        name: 'Google User',
+        email: 'user@gmail.com',
+        photoUrl: 'https://ui-avatars.com/api/?name=Google+User&background=0D8ABC&color=fff',
+        provider: 'google' as const,
+      };
+      
+      setUser(googleUser);
+      localStorage.setItem('travelUser', JSON.stringify(googleUser));
+      
+      toast({
+        title: "Google Login successful",
+        description: "Welcome to Travel Ease!",
+      });
+    } catch (error) {
+      toast({
+        title: "Google Login failed",
+        description: "Could not authenticate with Google. Please try again.",
+        variant: "destructive",
+      });
+      console.error("Google login error:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem('travelUser');
@@ -124,6 +165,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         loading,
         login,
         signup,
+        loginWithGoogle,
         logout,
       }}
     >

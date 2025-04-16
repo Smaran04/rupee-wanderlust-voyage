@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { MapPin, Star, Globe, Navigation } from 'lucide-react';
@@ -7,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import Layout from '@/components/layout/Layout';
 import HotelCard from '@/components/hotels/HotelCard';
 import { destinations, hotels } from '@/data/mockData';
+import OpenStreetMap from '@/components/maps/OpenStreetMap';
 
 const DestinationDetails = () => {
   const { id } = useParams<{ id: string }>();

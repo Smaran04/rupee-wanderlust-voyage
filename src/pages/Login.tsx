@@ -12,7 +12,7 @@ import Layout from '@/components/layout/Layout';
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login, loading } = useAuth();
+  const { login, loginWithGoogle, loading } = useAuth();
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,6 +30,16 @@ const Login = () => {
     } catch (error) {
       // Error handling is done in the Auth context
       console.error('Login failed:', error);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await loginWithGoogle();
+      navigate(redirectPath);
+    } catch (error) {
+      // Error handling is done in the Auth context
+      console.error('Google login failed:', error);
     }
   };
   
@@ -147,6 +157,8 @@ const Login = () => {
                   type="button"
                   variant="outline"
                   className="w-full"
+                  onClick={handleGoogleLogin}
+                  disabled={loading}
                 >
                   <span className="sr-only">Sign in with Google</span>
                   <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">

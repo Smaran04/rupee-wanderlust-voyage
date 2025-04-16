@@ -15,6 +15,7 @@ import Booking from "./pages/Booking";
 import Contact from "./pages/Contact";
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 import { AuthProvider } from "./context/AuthContext";
+import Chatbot from "./components/chatbot/Chatbot";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="/success" element={<CheckoutSuccess />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <Chatbot />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
