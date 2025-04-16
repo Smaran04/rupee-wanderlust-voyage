@@ -6,11 +6,15 @@ export interface NotificationDetails {
   to: string;
   subject?: string;
   message: string;
+  from?: string;
 }
 
 export const sendEmail = async (details: NotificationDetails): Promise<boolean> => {
   // In a real app, this would use a service like SendGrid, Mailgun, etc.
-  console.log('Sending email to:', details.to);
+  const senderEmail = details.from || 'travel09ease@gmail.com';
+  
+  console.log('Sending email from:', senderEmail);
+  console.log('To:', details.to);
   console.log('Subject:', details.subject);
   console.log('Message:', details.message);
   

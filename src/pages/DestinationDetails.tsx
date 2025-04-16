@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { MapPin, Star, Globe, Navigation } from 'lucide-react';
@@ -110,14 +111,13 @@ const DestinationDetails = () => {
               </div>
               
               <div className="aspect-[16/9] rounded-lg overflow-hidden shadow-lg">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  loading="lazy"
-                  allowFullScreen
-                  src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBMH_02-CmHwzaN9HA7c3lyAA6qZ1rM86k&q=${encodeURIComponent(destination.name)}&center=${destination.mapLocation.lat},${destination.mapLocation.lng}&zoom=12`}
-                ></iframe>
+                <OpenStreetMap 
+                  latitude={destination.mapLocation.lat}
+                  longitude={destination.mapLocation.lng}
+                  markerTitle={destination.name}
+                  zoom={12}
+                  height="500px"
+                />
               </div>
             </div>
           </TabsContent>

@@ -53,8 +53,9 @@ const CheckoutSuccess = () => {
           Travel Ease: Your booking #${bookingDetails.bookingId} for ${bookingDetails.hotelName} is confirmed. Check-in: ${format(new Date(bookingDetails.checkIn), 'MMM d')}. Total: ₹${bookingDetails.grandTotal.toLocaleString()}
         `;
 
-        // Send email notification
+        // Send email notification with the specified sender address
         const emailResult = await sendEmail({
+          from: 'travel09ease@gmail.com',
           to: bookingDetails.guestEmail,
           subject: `Travel Ease Booking Confirmation #${bookingDetails.bookingId}`,
           message: emailMessage
@@ -64,7 +65,7 @@ const CheckoutSuccess = () => {
           setEmailSent(true);
           toast({
             title: "Email sent",
-            description: `Booking confirmation email has been sent to ${bookingDetails.guestEmail}`,
+            description: `Booking confirmation email has been sent to ${bookingDetails.guestEmail} from travel09ease@gmail.com`,
           });
         }
         
