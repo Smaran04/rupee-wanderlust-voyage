@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
@@ -277,141 +278,123 @@ const HotelDetails = () => {
                         </div>
                       ))}
                     </div>
-                  )}
-                </TabsContent>
-              </Tabs>
-            </div>
-          </div>
-          
-          {/* Right Column - Booking Card */}
-          <div className="lg:col-span-1">
-            <Card className="sticky top-24">
-              <CardContent className="p-6">
-                <h2 className="text-xl font-bold mb-4">Book Your Stay</h2>
-                
-                {isFestival && (
-                  <div className="mb-4">
-                    <Badge variant="destructive" className="mb-2">Festival Season</Badge>
-                    <p className="text-sm text-red-600">
-                      Higher rates apply during {hotel.festivalsNearby?.join(', ')}
-                    </p>
                   </div>
                 )}
-                
-                <div className="space-y-4 mb-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Check-in Date</label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full justify-start text-left font-normal",
-                            !checkInDate && "text-muted-foreground"
-                          )}
-                        >
-                          <Calendar className="mr-2 h-4 w-4" />
-                          {checkInDate ? format(checkInDate, "PPP") : <span>Select date</span>}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <CalendarComponent
-                          mode="single"
-                          selected={checkInDate}
-                          onSelect={(date) => {
-                            if (date) {
-                              setCheckInDate(date);
-                              // If check-out date is before or same as check-in date, update it
-                              if (checkOutDate <= date) {
-                                setCheckOutDate(addDays(date, 1));
-                              }
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+          
+        {/* Right Column - Booking Card */}
+        <div className="lg:col-span-1">
+          <Card className="sticky top-24">
+            <CardContent className="p-6">
+              <h2 className="text-xl font-bold mb-4">Book Your Stay</h2>
+              
+              {isFestival && (
+                <div className="mb-4">
+                  <Badge variant="destructive" className="mb-2">Festival Season</Badge>
+                  <p className="text-sm text-red-600">
+                    Higher rates apply during {hotel.festivalsNearby?.join(', ')}
+                  </p>
+                </div>
+              )}
+              
+              <div className="space-y-4 mb-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Check-in Date</label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !checkInDate && "text-muted-foreground"
+                        )}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {checkInDate ? format(checkInDate, "PPP") : <span>Select date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <CalendarComponent
+                        mode="single"
+                        selected={checkInDate}
+                        onSelect={(date) => {
+                          if (date) {
+                            setCheckInDate(date);
+                            // If check-out date is before or same as check-in date, update it
+                            if (checkOutDate <= date) {
+                              setCheckOutDate(addDays(date, 1));
                             }
-                          }}
-                          initialFocus
-                          disabled={(date) => date < new Date()}
-                          className={cn("p-3 pointer-events-auto")}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                  
+                          }
+                        }}
+                        initialFocus
+                        disabled={(date) => date < new Date()}
+                        className={cn("p-3 pointer-events-auto")}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2">Check-out Date</label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !checkOutDate && "text-muted-foreground"
+                        )}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {checkOutDate ? format(checkOutDate, "PPP") : <span>Select date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <CalendarComponent
+                        mode="single"
+                        selected={checkOutDate}
+                        onSelect={(date) => date && setCheckOutDate(date)}
+                        initialFocus
+                        disabled={(date) => date <= checkInDate}
+                        className={cn("p-3 pointer-events-auto")}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Check-out Date</label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full justify-start text-left font-normal",
-                            !checkOutDate && "text-muted-foreground"
-                          )}
-                        >
-                          <Calendar className="mr-2 h-4 w-4" />
-                          {checkOutDate ? format(checkOutDate, "PPP") : <span>Select date</span>}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <CalendarComponent
-                          mode="single"
-                          selected={checkOutDate}
-                          onSelect={(date) => date && setCheckOutDate(date)}
-                          initialFocus
-                          disabled={(date) => date <= checkInDate}
-                          className={cn("p-3 pointer-events-auto")}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="adults" className="block text-sm font-medium mb-2">
-                        Adults
-                      </label>
-                      <Select value={adults} onValueChange={setAdults}>
-                        <SelectTrigger id="adults">
-                          <SelectValue placeholder="Adults" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {[...Array(10)].map((_, i) => (
-                            <SelectItem key={i} value={(i + 1).toString()}>
-                              {i + 1}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <label htmlFor="children" className="block text-sm font-medium mb-2">
-                        Children
-                      </label>
-                      <Select value={children} onValueChange={setChildren}>
-                        <SelectTrigger id="children">
-                          <SelectValue placeholder="Children" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {[...Array(11)].map((_, i) => (
-                            <SelectItem key={i} value={i.toString()}>
-                              {i}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="room-type" className="block text-sm font-medium mb-2">
-                      Room Type
+                    <label htmlFor="adults" className="block text-sm font-medium mb-2">
+                      Adults
                     </label>
-                    <Select value={selectedRoom} onValueChange={setSelectedRoom}>
-                      <SelectTrigger id="room-type">
-                        <SelectValue placeholder="Select room type" />
+                    <Select value={adults} onValueChange={setAdults}>
+                      <SelectTrigger id="adults">
+                        <SelectValue placeholder="Adults" />
                       </SelectTrigger>
                       <SelectContent>
-                        {hotel.rooms.map((room, index) => (
-                          <SelectItem key={index} value={room.type}>
-                            {room.type} (₹{Math.round(basePrice * room.priceMultiplier).toLocaleString()})
+                        {[...Array(10)].map((_, i) => (
+                          <SelectItem key={i} value={(i + 1).toString()}>
+                            {i + 1}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label htmlFor="children" className="block text-sm font-medium mb-2">
+                      Children
+                    </label>
+                    <Select value={children} onValueChange={setChildren}>
+                      <SelectTrigger id="children">
+                        <SelectValue placeholder="Children" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[...Array(11)].map((_, i) => (
+                          <SelectItem key={i} value={i.toString()}>
+                            {i}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -419,56 +402,74 @@ const HotelDetails = () => {
                   </div>
                 </div>
                 
-                <div className="bg-gray-50 p-4 rounded-lg mb-6">
-                  <div className="flex justify-between mb-2">
-                    <span className="text-gray-600">₹{finalPrice.toLocaleString()} x {durationInDays} nights</span>
-                    <span>₹{totalPrice.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between font-semibold border-t pt-2 mt-2">
-                    <span>Total</span>
-                    <span>₹{totalPrice.toLocaleString()}</span>
-                  </div>
+                <div>
+                  <label htmlFor="room-type" className="block text-sm font-medium mb-2">
+                    Room Type
+                  </label>
+                  <Select value={selectedRoom} onValueChange={setSelectedRoom}>
+                    <SelectTrigger id="room-type">
+                      <SelectValue placeholder="Select room type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {hotel.rooms.map((room, index) => (
+                        <SelectItem key={index} value={room.type}>
+                          {room.type} (₹{Math.round(basePrice * room.priceMultiplier).toLocaleString()})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
-                
-                <Button 
-                  className="w-full" 
-                  size="lg"
-                  onClick={handleBooking}
-                >
-                  {isAuthenticated ? 'Book Now' : 'Sign in to Book'}
-                </Button>
-                
-                <div className="mt-4 text-sm text-gray-600">
-                  <div className="flex items-center mb-1">
-                    <Shield className="h-4 w-4 mr-1 text-green-500" />
-                    <span>Secure booking process</span>
-                  </div>
-                  <div className="flex items-center mb-1">
-                    <Coffee className="h-4 w-4 mr-1 text-green-500" />
-                    <span>Free cancellation available</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Wifi className="h-4 w-4 mr-1 text-green-500" />
-                    <span>Free Wi-Fi in all rooms</span>
-                  </div>
+              </div>
+              
+              <div className="bg-gray-50 p-4 rounded-lg mb-6">
+                <div className="flex justify-between mb-2">
+                  <span className="text-gray-600">₹{finalPrice.toLocaleString()} x {durationInDays} nights</span>
+                  <span>₹{totalPrice.toLocaleString()}</span>
                 </div>
-              </CardContent>
-            </Card>
+                <div className="flex justify-between font-semibold border-t pt-2 mt-2">
+                  <span>Total</span>
+                  <span>₹{totalPrice.toLocaleString()}</span>
+                </div>
+              </div>
+              
+              <Button 
+                className="w-full" 
+                size="lg"
+                onClick={handleBooking}
+              >
+                {isAuthenticated ? 'Book Now' : 'Sign in to Book'}
+              </Button>
+              
+              <div className="mt-4 text-sm text-gray-600">
+                <div className="flex items-center mb-1">
+                  <Shield className="h-4 w-4 mr-1 text-green-500" />
+                  <span>Secure booking process</span>
+                </div>
+                <div className="flex items-center mb-1">
+                  <Coffee className="h-4 w-4 mr-1 text-green-500" />
+                  <span>Free cancellation available</span>
+                </div>
+                <div className="flex items-center">
+                  <Wifi className="h-4 w-4 mr-1 text-green-500" />
+                  <span>Free Wi-Fi in all rooms</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+      
+      {/* Similar Hotels Section */}
+      {similarHotels.length > 0 && (
+        <div className="mt-16">
+          <h2 className="text-2xl font-bold mb-6">Similar Hotels</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {similarHotels.map(hotel => (
+              <HotelCard key={hotel.id} hotel={hotel} />
+            ))}
           </div>
         </div>
-        
-        {/* Similar Hotels Section */}
-        {similarHotels.length > 0 && (
-          <div className="mt-16">
-            <h2 className="text-2xl font-bold mb-6">Similar Hotels</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {similarHotels.map(hotel => (
-                <HotelCard key={hotel.id} hotel={hotel} />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+      )}
     </Layout>
   );
 };
