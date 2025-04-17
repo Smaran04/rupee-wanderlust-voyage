@@ -21,6 +21,9 @@ export const sendEmail = async (details: NotificationDetails): Promise<boolean> 
   // Simulate API call
   await new Promise(resolve => setTimeout(resolve, 1000));
   
+  // Add notification to show email was sent
+  console.log('Email sent successfully to:', details.to);
+  
   // Return success (in a real app, this would be the response from the email service)
   return true;
 };

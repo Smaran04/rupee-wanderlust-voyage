@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -164,7 +163,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ isHorizontal = false }) => {
         type="submit" 
         className={cn(
           "w-full", 
-          isHorizontal && "md:w-auto mt-4 md:mt-0"
+          isHorizontal && "md:w-auto mt-4 md:mt-0",
+          "bg-travel-600 text-white"
         )}
       >
         <Search className="mr-2 h-4 w-4" />
