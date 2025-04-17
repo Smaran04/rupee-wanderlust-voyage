@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
@@ -16,6 +15,7 @@ import { hotels, destinations } from '@/data/mockData';
 import ImageGallery from '@/components/hotel/ImageGallery';
 import { useAuth } from '@/context/AuthContext';
 import HotelCard from '@/components/hotels/HotelCard';
+import OpenStreetMap from '@/components/maps/OpenStreetMap';
 
 const HotelDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -248,14 +248,12 @@ const HotelDetails = () => {
                 </div>
                 
                 <div className="aspect-video relative rounded-lg overflow-hidden">
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    allowFullScreen
-                    src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBMH_02-CmHwzaN9HA7c3lyAA6qZ1rM86k&q=${encodeURIComponent(hotel.address)}`}
-                  ></iframe>
+                  <OpenStreetMap
+                    latitude={destination?.mapLocation?.lat || 20.5937}
+                    longitude={destination?.mapLocation?.lng || 78.9629}
+                    markerTitle={hotel.name}
+                    zoom={12}
+                  />
                 </div>
                 
                 {destination && destination.hotspots.length > 0 && (
