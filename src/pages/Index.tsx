@@ -20,7 +20,7 @@ const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative bg-travel-700 text-white">
+      <section className="relative bg-travel-700">
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
             src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?q=80&w=1770" 
@@ -32,10 +32,10 @@ const Index = () => {
         
         <div className="container mx-auto px-4 py-16 md:py-28 relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 animate-fade-in">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 animate-fade-in text-black">
               Discover the Beauty of India
             </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl animate-fade-in">
+            <p className="text-lg md:text-xl text-black mb-8 max-w-2xl animate-fade-in">
               From ancient landmarks to pristine beaches, explore the incredible diversity of 
               India with our curated collection of destinations and premium accommodations.
             </p>
@@ -163,10 +163,10 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-travel-600 text-white">
+      <section className="py-16 bg-travel-600">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Your Journey?</h2>
-          <p className="text-lg mb-8 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold mb-4 text-black">Ready to Start Your Journey?</h2>
+          <p className="text-lg mb-8 max-w-2xl mx-auto text-black">
             Book your next adventure today and create memories that will last a lifetime.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -174,7 +174,7 @@ const Index = () => {
               <Button size="lg" variant="secondary">Browse Hotels</Button>
             </Link>
             <Link to="/signup">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-travel-600">
+              <Button size="lg" variant="outline" className="border-black text-black hover:bg-white hover:text-travel-600">
                 Create Account
               </Button>
             </Link>

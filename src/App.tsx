@@ -15,7 +15,8 @@ import Booking from "./pages/Booking";
 import Contact from "./pages/Contact";
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 import { AuthProvider } from "./context/AuthContext";
-import Chatbot from "./components/chatbot/Chatbot";
+// We're removing the import for our custom Chatbot since we're using Chatbase now
+// import Chatbot from "./components/chatbot/Chatbot";
 
 // Create a new QueryClient outside of the component to avoid recreation on renders
 const queryClient = new QueryClient({
@@ -45,7 +46,7 @@ const App = () => (
           <Route path="/success" element={<CheckoutSuccess />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <Chatbot />
+        {/* Removed our custom Chatbot component since we're using Chatbase now */}
       </TooltipProvider>
     </AuthProvider>
   </QueryClientProvider>

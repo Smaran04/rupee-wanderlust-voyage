@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -108,9 +109,9 @@ const HotelListing = () => {
   return (
     <Layout>
       {/* Search banner */}
-      <section className="bg-travel-700 text-white">
+      <section className="bg-travel-700">
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-4">
+          <h1 className="text-2xl md:text-3xl font-bold mb-4 text-black">
             {searchParams.destination 
               ? `Hotels in ${getDestinationName(searchParams.destination)}` 
               : 'Find Your Perfect Hotel'}
