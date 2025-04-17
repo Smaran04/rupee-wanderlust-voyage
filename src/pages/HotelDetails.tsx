@@ -1,6 +1,7 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Calendar, Clock, MapPin, Star, ImagePlus, Loader2 } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, MapPin, Star, ImagePlus, Loader2 } from 'lucide-react';
 import { format, isSameDay } from 'date-fns';
 import { DateRange } from 'react-day-picker';
 import { Button } from '@/components/ui/button';
@@ -16,6 +17,7 @@ import Gallery from '@/components/gallery/Gallery';
 import Amenities from '@/components/amenities/Amenities';
 import OpenStreetMap from '@/components/maps/OpenStreetMap';
 import { hotels } from '@/data/mockData';
+import { Calendar } from '@/components/ui/calendar';
 
 const HotelDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -171,7 +173,7 @@ const HotelDetails = () => {
                           variant={"outline"}
                           className="w-full justify-start text-left font-normal"
                         >
-                          <Calendar className="mr-2 h-4 w-4" />
+                          <CalendarIcon className="mr-2 h-4 w-4" />
                           {date?.from ? (
                             date.to ? (
                               `${format(date.from, "MMM dd, yyyy")} - ${format(
@@ -204,13 +206,15 @@ const HotelDetails = () => {
                             <p>Please select check-in and check-out dates.</p>
                           )}
                         </SheetHeader>
-                        <DateRange
-                          defaultMonth={date?.from}
-                          mode="range"
-                          selected={date}
-                          onSelect={setDate}
-                          numberOfMonths={2}
-                        />
+                        <div className="react-day-picker">
+                          <Calendar
+                            defaultMonth={date?.from}
+                            mode="range"
+                            selected={date}
+                            onSelect={setDate}
+                            numberOfMonths={2}
+                          />
+                        </div>
                       </SheetContent>
                     </Sheet>
                   </Label>
@@ -238,7 +242,7 @@ const HotelDetails = () => {
                   />
                 </div>
                 
-                <Button className="w-full" onClick={handleBooking}>
+                <Button className="w-full bg-travel-600 text-white" onClick={handleBooking}>
                   Book Now
                 </Button>
               </CardContent>
