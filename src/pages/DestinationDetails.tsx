@@ -20,8 +20,10 @@ interface ExtendedDestination {
   country: string;
   highlights?: string[]; // Make optional
   activities?: string[]; // Make optional
-  latitude?: number; // Make optional
-  longitude?: number; // Make optional
+  mapLocation: {
+    lat: number;
+    lng: number;
+  };
 }
 
 const DestinationDetails = () => {
@@ -83,10 +85,10 @@ const DestinationDetails = () => {
               )}
             </div>
             
-            {destination.latitude && destination.longitude && (
+            {destination.mapLocation && (
               <OpenStreetMap
-                latitude={destination.latitude}
-                longitude={destination.longitude}
+                latitude={destination.mapLocation.lat}
+                longitude={destination.mapLocation.lng}
                 zoom={13}
                 markerTitle={destination.name}
                 height="400px"

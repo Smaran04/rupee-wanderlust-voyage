@@ -4,8 +4,8 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
 interface OpenStreetMapProps {
-  latitude: number;
-  longitude: number;
+  latitude: number | undefined;
+  longitude: number | undefined;
   zoom?: number;
   markerTitle?: string;
   height?: string;
@@ -27,6 +27,12 @@ const OpenStreetMap: React.FC<OpenStreetMapProps> = ({
 
   useEffect(() => {
     if (!mapRef.current) return;
+    
+    // Early return if latitude or longitude are undefined
+    if (latitude === undefined || longitude === undefined) {
+      console.warn('Invalid coordinates provided to OpenStreetMap:', { latitude, longitude });
+      return;
+    }
 
     // Fix icon paths for Leaflet
     const fixLeafletIcon = () => {

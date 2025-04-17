@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Calendar as CalendarIcon, Clock, MapPin, Star, ImagePlus, Loader2 } from 'lucide-react';
@@ -136,8 +135,8 @@ const HotelDetails = () => {
               <CardContent className="p-6">
                 <h2 className="text-xl font-semibold mb-4">Location</h2>
                 <OpenStreetMap
-                  latitude={hotel.latitude}
-                  longitude={hotel.longitude}
+                  latitude={hotel.mapLocation?.lat}
+                  longitude={hotel.mapLocation?.lng}
                   zoom={14}
                   markerTitle={hotel.name}
                   height="400px"
